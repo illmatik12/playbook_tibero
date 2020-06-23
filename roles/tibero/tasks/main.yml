@@ -1,0 +1,6 @@
+- name: add user environment & kernel parameter 
+  include_tasks: env.yml 
+- name: upload install file 
+  include_tasks: upload.yml 
+- name: create database  
+  include_tasks: create_db.yml 

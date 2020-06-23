@@ -1,0 +1,6 @@
+- name: install tibero 
+  hosts: 10.210.11.120
+  become: yes
+
+  roles:
+    - tibero

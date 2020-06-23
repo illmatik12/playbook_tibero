@@ -1,0 +1,58 @@
+- name: gen_tip.sh 
+  shell: "source ~/.bash_profile && {{tb_home}}/config/gen_tip.sh"
+  run_once: true
+  become: yes
+  become_user: "{{user_name}}"  
+
+- name: copy template file
+  template:
+    src: tibero_tip.j2
+    dest: "{{ tb_home }}/config/{{ tb_sid }}.tip"
+
+- name: tbboot nomount 
+  shell: "source ~/.bash_profile && tbboot nomount"
+  become: yes
+  become_user: "{{user_name}}"  
+  ignore_errors: yes
+  run_once: true
+
+- name: db create 
+  shell:  | 
+          source ~/.bash_profile  
+          tbsql sys/tibero << EOF >> /dev/null
+              create database
+              user sys identified by tibero
+              character set UTF8 -- UTF8, EUCKR, ASCII, MSWIN949
+              logfile group 0 ('redo001.redo') size 10M,
+                      group 1 ('redo011.redo') size 10M,
+                      group 2 ('redo021.redo') size 10M
+              maxdatafiles 1024
+              maxlogfiles 100
+              maxlogmembers 8
+              noarchivelog
+                datafile 'system001.dtf' size 100M autoextend on next 16M maxsize 32G
+              default tablespace USR
+                datafile 'usr001.dtf' size 128M autoextend on next 16M maxsize 32G
+              default temporary tablespace TEMP
+                tempfile 'temp001.dtf' size 128M autoextend on next 16M maxsize 32G
+                extent management local AUTOALLOCATE
+              undo tablespace UNDO
+                datafile 'undo001.dtf' size 128M autoextend on next 16M maxsize 32G
+                extent management local AUTOALLOCATE
+              ;
+            exit
+            EOF
+  register: stdout
+  run_once: true
+  become: yes
+  become_user: "{{user_name}}"  
+
+- name:  run normal mode 
+  shell: "source ~/.bash_profile && tbboot"
+  become: yes
+  become_user: "{{user_name}}"  
+
+- name:  run system.sh 
+  shell: "source ~/.bash_profile && sh $TB_HOME/scripts/system.sh -p1 tibero -p2 syscat -a1 y -a2 y -a3 y -a4 y"
+  become: yes
+  become_user: "{{user_name}}"  

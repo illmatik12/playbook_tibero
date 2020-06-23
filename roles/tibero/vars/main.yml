@@ -1,0 +1,14 @@
+user_name: tibero  
+password: tibero 
+group: dba
+work_files_path: /home/{{user_name}}/works
+app_home : /home/{{user_name}}
+tb_home : "{{ app_home }}/tibero6"
+tb_sid : tibero    
+file_name: "tibero6-bin-FS07_CS_1912-linux64-174424-opt.tar.gz"
+total_shm_size: 2G 
+memory_target: 4G 
+max_session_count: 100
+tbr_data : /home/tibero/tbdata
+db_create_file_dest: "{{tbr_data}}"
+log_default_dest: "{{ tb_home }}/{{ tb_sid }}/log"

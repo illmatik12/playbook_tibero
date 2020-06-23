@@ -1,0 +1,39 @@
+- name: make work directory
+  file:
+    path: "{{work_files_path}}"
+    state: directory
+  become: yes
+  become_user: "{{user_name}}"  
+
+- name: make tb_home 
+  file:
+    path: "{{tb_home}}"
+    state: directory
+  become: yes
+  become_user: "{{user_name}}"  
+
+
+- name: upload install file
+  copy:
+    src: "~/playbook/{{file_name}}"
+    dest: "{{ work_files_path }}/"
+  become: yes
+  become_user: "{{user_name}}"  
+
+- name: unarchive binary
+  unarchive: 
+    src : "{{ item }}" 
+    dest: "{{ app_home }}"
+    remote_src: yes
+    # mode : 0755
+  become: yes
+  become_user: "{{user_name}}"  
+  with_items:
+    - "{{ work_files_path }}/{{ file_name }}"
+
+- name: upload license file
+  copy:
+    src: "~/playbook/license.xml"
+    dest: "{{ tb_home }}/license/"
+  become: yes
+  become_user: "{{user_name}}"  

@@ -1,0 +1,1 @@
+# ansible automate install script
