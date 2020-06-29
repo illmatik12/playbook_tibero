@@ -6,7 +6,7 @@
 #-------------------------------------------------------------------------------
 
 DB_NAME={{ tb_sid }}
-LISTENER_PORT=8629
+LISTENER_PORT={{ db_port }}
 CONTROL_FILES="{{ tbr_data }}/control1.ctl","{{ tbr_data }}/control2.ctl"
 
 MAX_SESSION_COUNT={{ max_session_count }}

@@ -22,10 +22,10 @@
           tbsql sys/tibero << EOF >> /dev/null
               create database
               user sys identified by tibero
-              character set UTF8 -- UTF8, EUCKR, ASCII, MSWIN949
-              logfile group 0 ('redo001.redo') size 10M,
-                      group 1 ('redo011.redo') size 10M,
-                      group 2 ('redo021.redo') size 10M
+              character set  {{ db_character_set }} -- UTF8, EUCKR, ASCII, MSWIN949
+              logfile group 0 ('redo001.redo') size {{ redo_size }},
+                      group 1 ('redo011.redo') size {{ redo_size }},
+                      group 2 ('redo021.redo') size {{ redo_size }} 
               maxdatafiles 1024
               maxlogfiles 100
               maxlogmembers 8

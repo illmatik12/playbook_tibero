@@ -8,7 +8,10 @@ tb_sid : tibero
 file_name: "tibero6-bin-FS07_CS_1912-linux64-174424-opt.tar.gz"
 total_shm_size: 2G 
 memory_target: 4G 
+db_port: 8629
 max_session_count: 100
 tbr_data : /home/tibero/tbdata
 db_create_file_dest: "{{tbr_data}}"
 log_default_dest: "{{ tb_home }}/{{ tb_sid }}/log"
+redo_size: 100M
+db_character_set: UTF8
